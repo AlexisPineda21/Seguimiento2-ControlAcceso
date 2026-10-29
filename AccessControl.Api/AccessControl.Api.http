@@ -1,3 +1,52 @@
 @AccessControl.Api_HostAddress = http://localhost:5257
+@accessPointId = 01a18576-32e5-785d-804d-969171f9f017
 
-###
+### Areas
+GET {{AccessControl.Api_HostAddress}}/api/areas
+Accept: application/json
+
+### Puntos de acceso - listado
+GET {{AccessControl.Api_HostAddress}}/api/access-points?pageNumber=1&pageSize=10
+Accept: application/json
+
+### Puntos de acceso - solo habilitados de tipo bodega
+GET {{AccessControl.Api_HostAddress}}/api/access-points?isEnabled=true&type=Warehouse
+Accept: application/json
+
+### Puntos de acceso - por id
+GET {{AccessControl.Api_HostAddress}}/api/access-points/{{accessPointId}}
+Accept: application/json
+
+### Puntos de acceso - registrar
+POST {{AccessControl.Api_HostAddress}}/api/access-points
+Content-Type: application/json
+
+{
+  "name": "Torniquete muelle de carga",
+  "description": "Acceso del personal al muelle de carga",
+  "type": "RestrictedArea"
+}
+
+### Puntos de acceso - registrar con nombre repetido (409)
+POST {{AccessControl.Api_HostAddress}}/api/access-points
+Content-Type: application/json
+
+{
+  "name": "Parqueadero",
+  "type": "Parking"
+}
+
+### Puntos de acceso - registrar con datos inválidos (400)
+POST {{AccessControl.Api_HostAddress}}/api/access-points
+Content-Type: application/json
+
+{
+  "name": "AB",
+  "type": "Garage"
+}
+
+### Puntos de acceso - deshabilitar
+PATCH {{AccessControl.Api_HostAddress}}/api/access-points/{{accessPointId}}/disable
+
+### Puntos de acceso - habilitar
+PATCH {{AccessControl.Api_HostAddress}}/api/access-points/{{accessPointId}}/enable
