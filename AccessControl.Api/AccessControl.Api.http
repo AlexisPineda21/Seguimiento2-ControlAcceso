@@ -1,5 +1,7 @@
 @AccessControl.Api_HostAddress = http://localhost:5257
-@accessPointId = 01a18576-32e5-785d-804d-969171f9f017
+@accessPointId = 00000000-0000-0000-0000-000000000000
+@areaId = 00000000-0000-0000-0000-000000000000
+@employeeId = 00000000-0000-0000-0000-000000000000
 
 ### Areas
 GET {{AccessControl.Api_HostAddress}}/api/areas
@@ -50,3 +52,69 @@ PATCH {{AccessControl.Api_HostAddress}}/api/access-points/{{accessPointId}}/disa
 
 ### Puntos de acceso - habilitar
 PATCH {{AccessControl.Api_HostAddress}}/api/access-points/{{accessPointId}}/enable
+
+### Empleados - listado
+GET {{AccessControl.Api_HostAddress}}/api/employees?pageNumber=1&pageSize=10
+Accept: application/json
+
+### Empleados - filtrar por estado y búsqueda
+GET {{AccessControl.Api_HostAddress}}/api/employees?status=Active&search=gomez
+Accept: application/json
+
+### Empleados - por id
+GET {{AccessControl.Api_HostAddress}}/api/employees/{{employeeId}}
+Accept: application/json
+
+### Empleados - registrar
+POST {{AccessControl.Api_HostAddress}}/api/employees
+Content-Type: application/json
+
+{
+  "documentNumber": "1001234567",
+  "firstName": "Mateo",
+  "lastName": "Cardona",
+  "email": "mateo.cardona@empresa.com",
+  "position": "Operario de despacho",
+  "areaId": "{{areaId}}"
+}
+
+### Empleados - registrar con identificación repetida (409)
+POST {{AccessControl.Api_HostAddress}}/api/employees
+Content-Type: application/json
+
+{
+  "documentNumber": "1036625478",
+  "firstName": "Laura",
+  "lastName": "Gómez",
+  "email": "otra.laura@empresa.com",
+  "position": "Auxiliar",
+  "areaId": "{{areaId}}"
+}
+
+### Empleados - registrar con datos inválidos (400)
+POST {{AccessControl.Api_HostAddress}}/api/employees
+Content-Type: application/json
+
+{
+  "documentNumber": "10.36",
+  "firstName": "M",
+  "lastName": "Cardona",
+  "email": "correo-invalido",
+  "position": "Operario",
+  "areaId": "{{areaId}}"
+}
+
+### Empleados - actualizar
+PUT {{AccessControl.Api_HostAddress}}/api/employees/{{employeeId}}
+Content-Type: application/json
+
+{
+  "firstName": "Mateo",
+  "lastName": "Cardona Ruiz",
+  "email": "mateo.cardona@empresa.com",
+  "position": "Líder de despacho",
+  "areaId": "{{areaId}}"
+}
+
+### Empleados - desactivar
+PATCH {{AccessControl.Api_HostAddress}}/api/employees/{{employeeId}}/deactivate
