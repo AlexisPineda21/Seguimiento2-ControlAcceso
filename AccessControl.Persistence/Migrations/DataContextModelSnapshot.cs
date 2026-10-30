@@ -79,6 +79,48 @@ namespace AccessControl.Persistence.Migrations
                     b.ToTable("Areas", (string)null);
                 });
 
+            modelBuilder.Entity("AccessControl.Domain.Entities.Credentials.Credential", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("BlockedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<Guid>("EmployeeId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("IssuedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("RevokedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<string>("StatusReason")
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Code")
+                        .IsUnique();
+
+                    b.HasIndex("EmployeeId");
+
+                    b.ToTable("Credentials", (string)null);
+                });
+
             modelBuilder.Entity("AccessControl.Domain.Entities.Employees.Employee", b =>
                 {
                     b.Property<Guid>("Id")
@@ -119,6 +161,17 @@ namespace AccessControl.Persistence.Migrations
                     b.HasIndex("AreaId");
 
                     b.ToTable("Employees", (string)null);
+                });
+
+            modelBuilder.Entity("AccessControl.Domain.Entities.Credentials.Credential", b =>
+                {
+                    b.HasOne("AccessControl.Domain.Entities.Employees.Employee", "Employee")
+                        .WithMany()
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Employee");
                 });
 
             modelBuilder.Entity("AccessControl.Domain.Entities.Employees.Employee", b =>

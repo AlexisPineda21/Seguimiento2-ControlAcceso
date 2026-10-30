@@ -4,6 +4,12 @@ using AccessControl.Application.UseCases.AccessPoints.Commands.EnableAccessPoint
 using AccessControl.Application.UseCases.AccessPoints.Queries.GetAccessPointById;
 using AccessControl.Application.UseCases.AccessPoints.Queries.GetAccessPointsList;
 using AccessControl.Application.UseCases.Areas.Queries.GetAreasList;
+using AccessControl.Application.UseCases.Credentials.Commands.AssignCredential;
+using AccessControl.Application.UseCases.Credentials.Commands.BlockCredential;
+using AccessControl.Application.UseCases.Credentials.Commands.RevokeCredential;
+using AccessControl.Application.UseCases.Credentials.Commands.UnblockCredential;
+using AccessControl.Application.UseCases.Credentials.Queries.GetCredentialByCode;
+using AccessControl.Application.UseCases.Credentials.Queries.GetCredentialsByEmployee;
 using AccessControl.Application.UseCases.Employees.Commands.CreateEmployee;
 using AccessControl.Application.UseCases.Employees.Commands.DeactivateEmployee;
 using AccessControl.Application.UseCases.Employees.Commands.UpdateEmployee;
@@ -38,6 +44,13 @@ namespace AccessControl.Application
             services.AddScoped<IRequestHandler<CreateEmployeeCommand, Result<Guid>>, CreateEmployeeUseCase>();
             services.AddScoped<IRequestHandler<UpdateEmployeeCommand, Result>, UpdateEmployeeUseCase>();
             services.AddScoped<IRequestHandler<DeactivateEmployeeCommand, Result>, DeactivateEmployeeUseCase>();
+
+            services.AddScoped<IRequestHandler<GetCredentialByCodeQuery, Result<CredentialDetailsDTO>>, GetCredentialByCodeUseCase>();
+            services.AddScoped<IRequestHandler<GetCredentialsByEmployeeQuery, Result<IReadOnlyList<CredentialListItemDTO>>>, GetCredentialsByEmployeeUseCase>();
+            services.AddScoped<IRequestHandler<AssignCredentialCommand, Result<Guid>>, AssignCredentialUseCase>();
+            services.AddScoped<IRequestHandler<BlockCredentialCommand, Result>, BlockCredentialUseCase>();
+            services.AddScoped<IRequestHandler<UnblockCredentialCommand, Result>, UnblockCredentialUseCase>();
+            services.AddScoped<IRequestHandler<RevokeCredentialCommand, Result>, RevokeCredentialUseCase>();
 
             // Validations
             services.AddValidatorsFromAssembly(typeof(ApplicationServicesRegistry).Assembly);

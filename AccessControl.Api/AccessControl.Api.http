@@ -2,6 +2,7 @@
 @accessPointId = 00000000-0000-0000-0000-000000000000
 @areaId = 00000000-0000-0000-0000-000000000000
 @employeeId = 00000000-0000-0000-0000-000000000000
+@credentialId = 00000000-0000-0000-0000-000000000000
 
 ### Areas
 GET {{AccessControl.Api_HostAddress}}/api/areas
@@ -118,3 +119,52 @@ Content-Type: application/json
 
 ### Empleados - desactivar
 PATCH {{AccessControl.Api_HostAddress}}/api/employees/{{employeeId}}/deactivate
+
+### Credenciales - consultar estado por código
+GET {{AccessControl.Api_HostAddress}}/api/credentials/code/CRD-1001
+Accept: application/json
+
+### Credenciales - consultar código que no existe (404)
+GET {{AccessControl.Api_HostAddress}}/api/credentials/code/CRD-9999
+Accept: application/json
+
+### Credenciales - credenciales de un empleado
+GET {{AccessControl.Api_HostAddress}}/api/credentials/employee/{{employeeId}}
+Accept: application/json
+
+### Credenciales - asignar
+POST {{AccessControl.Api_HostAddress}}/api/credentials
+Content-Type: application/json
+
+{
+  "employeeId": "{{employeeId}}",
+  "code": "CRD-2001"
+}
+
+### Credenciales - asignar código repetido (409)
+POST {{AccessControl.Api_HostAddress}}/api/credentials
+Content-Type: application/json
+
+{
+  "employeeId": "{{employeeId}}",
+  "code": "CRD-1001"
+}
+
+### Credenciales - bloquear
+PATCH {{AccessControl.Api_HostAddress}}/api/credentials/{{credentialId}}/block
+Content-Type: application/json
+
+{
+  "reason": "El empleado reportó la pérdida del carné"
+}
+
+### Credenciales - desbloquear
+PATCH {{AccessControl.Api_HostAddress}}/api/credentials/{{credentialId}}/unblock
+
+### Credenciales - revocar
+PATCH {{AccessControl.Api_HostAddress}}/api/credentials/{{credentialId}}/revoke
+Content-Type: application/json
+
+{
+  "reason": "Cambio de carné por deterioro"
+}

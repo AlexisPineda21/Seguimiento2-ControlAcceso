@@ -24,11 +24,13 @@ namespace AccessControl.Persistence
             services.AddScoped<IAreasRepository, AreasRepository>();
             services.AddScoped<IAccessPointsRepository, AccessPointsRepository>();
             services.AddScoped<IEmployeesRepository, EmployeesRepository>();
+            services.AddScoped<ICredentialsRepository, CredentialsRepository>();
 
             // Seeders
             services.AddScoped<IDataSeeder, AreaSeeder>();
             services.AddScoped<IDataSeeder, AccessPointSeeder>();
             services.AddScoped<IDataSeeder, EmployeeSeeder>();
+            services.AddScoped<IDataSeeder, CredentialSeeder>();
 
             return services;
         }
