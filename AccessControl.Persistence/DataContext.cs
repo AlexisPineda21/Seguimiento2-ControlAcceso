@@ -1,3 +1,4 @@
+using AccessControl.Domain.Entities.AccessLogs;
 using AccessControl.Domain.Entities.AccessPoints;
 using AccessControl.Domain.Entities.Areas;
 using AccessControl.Domain.Entities.Credentials;
@@ -16,6 +17,7 @@ namespace AccessControl.Persistence
         public DbSet<AccessPoint> AccessPoints { get; set; } = null!;
         public DbSet<Employee> Employees { get; set; } = null!;
         public DbSet<Credential> Credentials { get; set; } = null!;
+        public DbSet<AccessLog> AccessLogs { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

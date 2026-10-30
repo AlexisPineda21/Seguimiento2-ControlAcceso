@@ -25,6 +25,7 @@ namespace AccessControl.Persistence
             services.AddScoped<IAccessPointsRepository, AccessPointsRepository>();
             services.AddScoped<IEmployeesRepository, EmployeesRepository>();
             services.AddScoped<ICredentialsRepository, CredentialsRepository>();
+            services.AddScoped<IAccessLogsRepository, AccessLogsRepository>();
 
             // Seeders
             services.AddScoped<IDataSeeder, AreaSeeder>();

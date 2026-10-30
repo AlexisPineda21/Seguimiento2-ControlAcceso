@@ -1,3 +1,4 @@
+using AccessControl.Application.UseCases.AccessLogs.Commands.RegisterAccess;
 using AccessControl.Application.UseCases.AccessPoints.Commands.CreateAccessPoint;
 using AccessControl.Application.UseCases.AccessPoints.Commands.DisableAccessPoint;
 using AccessControl.Application.UseCases.AccessPoints.Commands.EnableAccessPoint;
@@ -51,6 +52,8 @@ namespace AccessControl.Application
             services.AddScoped<IRequestHandler<BlockCredentialCommand, Result>, BlockCredentialUseCase>();
             services.AddScoped<IRequestHandler<UnblockCredentialCommand, Result>, UnblockCredentialUseCase>();
             services.AddScoped<IRequestHandler<RevokeCredentialCommand, Result>, RevokeCredentialUseCase>();
+
+            services.AddScoped<IRequestHandler<RegisterAccessCommand, Result<RegisterAccessResultDTO>>, RegisterAccessUseCase>();
 
             // Validations
             services.AddValidatorsFromAssembly(typeof(ApplicationServicesRegistry).Assembly);

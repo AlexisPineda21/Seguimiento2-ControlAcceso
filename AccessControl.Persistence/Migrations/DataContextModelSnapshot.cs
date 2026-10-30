@@ -22,6 +22,56 @@ namespace AccessControl.Persistence.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("AccessControl.Domain.Entities.AccessLogs.AccessLog", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("AccessPointId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("CredentialCode")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<Guid?>("CredentialId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("EmployeeId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("MovementType")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
+
+                    b.Property<DateTime>("OccurredAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("RejectionReason")
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
+
+                    b.Property<string>("Result")
+                        .IsRequired()
+                        .HasMaxLength(15)
+                        .HasColumnType("nvarchar(15)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AccessPointId");
+
+                    b.HasIndex("CredentialId");
+
+                    b.HasIndex("OccurredAt");
+
+                    b.HasIndex("EmployeeId", "AccessPointId", "OccurredAt");
+
+                    b.ToTable("AccessLogs", (string)null);
+                });
+
             modelBuilder.Entity("AccessControl.Domain.Entities.AccessPoints.AccessPoint", b =>
                 {
                     b.Property<Guid>("Id")
@@ -161,6 +211,31 @@ namespace AccessControl.Persistence.Migrations
                     b.HasIndex("AreaId");
 
                     b.ToTable("Employees", (string)null);
+                });
+
+            modelBuilder.Entity("AccessControl.Domain.Entities.AccessLogs.AccessLog", b =>
+                {
+                    b.HasOne("AccessControl.Domain.Entities.AccessPoints.AccessPoint", "AccessPoint")
+                        .WithMany()
+                        .HasForeignKey("AccessPointId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("AccessControl.Domain.Entities.Credentials.Credential", "Credential")
+                        .WithMany()
+                        .HasForeignKey("CredentialId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("AccessControl.Domain.Entities.Employees.Employee", "Employee")
+                        .WithMany()
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("AccessPoint");
+
+                    b.Navigation("Credential");
+
+                    b.Navigation("Employee");
                 });
 
             modelBuilder.Entity("AccessControl.Domain.Entities.Credentials.Credential", b =>

@@ -3,6 +3,8 @@
 @areaId = 00000000-0000-0000-0000-000000000000
 @employeeId = 00000000-0000-0000-0000-000000000000
 @credentialId = 00000000-0000-0000-0000-000000000000
+@receptionId = 00000000-0000-0000-0000-000000000000
+@disabledAccessPointId = 00000000-0000-0000-0000-000000000000
 
 ### Areas
 GET {{AccessControl.Api_HostAddress}}/api/areas
@@ -167,4 +169,104 @@ Content-Type: application/json
 
 {
   "reason": "Cambio de carné por deterioro"
+}
+
+### Accesos - entrada autorizada (Laura, CRD-1001)
+POST {{AccessControl.Api_HostAddress}}/api/access
+Content-Type: application/json
+
+{
+  "credentialCode": "CRD-1001",
+  "accessPointId": "{{receptionId}}",
+  "movementType": "Entry"
+}
+
+### Accesos - segunda entrada sin salida (rechazado)
+POST {{AccessControl.Api_HostAddress}}/api/access
+Content-Type: application/json
+
+{
+  "credentialCode": "CRD-1001",
+  "accessPointId": "{{receptionId}}",
+  "movementType": "Entry"
+}
+
+### Accesos - salida autorizada
+POST {{AccessControl.Api_HostAddress}}/api/access
+Content-Type: application/json
+
+{
+  "credentialCode": "CRD-1001",
+  "accessPointId": "{{receptionId}}",
+  "movementType": "Exit"
+}
+
+### Accesos - salida sin entrada previa (rechazado)
+POST {{AccessControl.Api_HostAddress}}/api/access
+Content-Type: application/json
+
+{
+  "credentialCode": "CRD-1002",
+  "accessPointId": "{{receptionId}}",
+  "movementType": "Exit"
+}
+
+### Accesos - credencial bloqueada (rechazado)
+POST {{AccessControl.Api_HostAddress}}/api/access
+Content-Type: application/json
+
+{
+  "credentialCode": "CRD-1003",
+  "accessPointId": "{{receptionId}}",
+  "movementType": "Entry"
+}
+
+### Accesos - empleado inactivo (rechazado)
+POST {{AccessControl.Api_HostAddress}}/api/access
+Content-Type: application/json
+
+{
+  "credentialCode": "CRD-1004",
+  "accessPointId": "{{receptionId}}",
+  "movementType": "Entry"
+}
+
+### Accesos - punto de acceso deshabilitado (rechazado)
+POST {{AccessControl.Api_HostAddress}}/api/access
+Content-Type: application/json
+
+{
+  "credentialCode": "CRD-1002",
+  "accessPointId": "{{disabledAccessPointId}}",
+  "movementType": "Entry"
+}
+
+### Accesos - credencial que no existe (rechazado)
+POST {{AccessControl.Api_HostAddress}}/api/access
+Content-Type: application/json
+
+{
+  "credentialCode": "CRD-9999",
+  "accessPointId": "{{receptionId}}",
+  "movementType": "Entry"
+}
+
+### Accesos - punto de acceso que no existe (404)
+POST {{AccessControl.Api_HostAddress}}/api/access
+Content-Type: application/json
+
+{
+  "credentialCode": "CRD-1001",
+  "accessPointId": "11111111-1111-1111-1111-111111111111",
+  "movementType": "Entry"
+}
+
+### Accesos - tipo de movimiento inválido (400)
+POST {{AccessControl.Api_HostAddress}}/api/access
+Content-Type: application/json
+
+{
+  "credentialCode": "CRD-1001",
+  "accessPointId": "{{receptionId}}",
+  "movementType": "Inside"
 }
