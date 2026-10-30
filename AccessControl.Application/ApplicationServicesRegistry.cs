@@ -1,4 +1,5 @@
 using AccessControl.Application.UseCases.AccessLogs.Commands.RegisterAccess;
+using AccessControl.Application.UseCases.AccessLogs.Queries.GetAccessHistory;
 using AccessControl.Application.UseCases.AccessPoints.Commands.CreateAccessPoint;
 using AccessControl.Application.UseCases.AccessPoints.Commands.DisableAccessPoint;
 using AccessControl.Application.UseCases.AccessPoints.Commands.EnableAccessPoint;
@@ -54,6 +55,7 @@ namespace AccessControl.Application
             services.AddScoped<IRequestHandler<RevokeCredentialCommand, Result>, RevokeCredentialUseCase>();
 
             services.AddScoped<IRequestHandler<RegisterAccessCommand, Result<RegisterAccessResultDTO>>, RegisterAccessUseCase>();
+            services.AddScoped<IRequestHandler<GetAccessHistoryQuery, Result<PaginationResponse<AccessLogListItemDTO>>>, GetAccessHistoryUseCase>();
 
             // Validations
             services.AddValidatorsFromAssembly(typeof(ApplicationServicesRegistry).Assembly);

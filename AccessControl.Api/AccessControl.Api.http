@@ -270,3 +270,31 @@ Content-Type: application/json
   "accessPointId": "{{receptionId}}",
   "movementType": "Inside"
 }
+
+### Historial - todos los accesos
+GET {{AccessControl.Api_HostAddress}}/api/access/history?pageNumber=1&pageSize=10
+Accept: application/json
+
+### Historial - por empleado
+GET {{AccessControl.Api_HostAddress}}/api/access/history?employeeId={{employeeId}}
+Accept: application/json
+
+### Historial - por punto de acceso
+GET {{AccessControl.Api_HostAddress}}/api/access/history?accessPointId={{receptionId}}
+Accept: application/json
+
+### Historial - solo rechazados
+GET {{AccessControl.Api_HostAddress}}/api/access/history?result=Rejected
+Accept: application/json
+
+### Historial - por rango de fechas
+GET {{AccessControl.Api_HostAddress}}/api/access/history?fromDate=2026-10-01&toDate=2026-10-31
+Accept: application/json
+
+### Historial - filtros combinados
+GET {{AccessControl.Api_HostAddress}}/api/access/history?accessPointId={{receptionId}}&result=Authorized&fromDate=2026-10-01&toDate=2026-10-31&pageSize=5
+Accept: application/json
+
+### Historial - rango de fechas inválido (400)
+GET {{AccessControl.Api_HostAddress}}/api/access/history?fromDate=2026-10-31&toDate=2026-10-01
+Accept: application/json
