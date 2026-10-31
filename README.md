@@ -197,18 +197,18 @@ Listado de empleados:
 
 ![Empleados](docs/evidencias/empleados.png)
 
-Bloqueo de credencial:
+Consulta del estado de una credencial:
 
-![Credencial bloqueada](docs/evidencias/credencial-bloqueada.png)
+![Credencial](docs/evidencias/credencial.png)
 
 Acceso autorizado:
 
 ![Acceso autorizado](docs/evidencias/acceso-autorizado.png)
 
-Acceso rechazado:
+Acceso rechazado por credencial bloqueada:
 
 ![Acceso rechazado](docs/evidencias/acceso-rechazado.png)
 
-Historial de accesos filtrado:
+Historial de accesos filtrado por resultado:
 
 ![Historial](docs/evidencias/historial.png)
